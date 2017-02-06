@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <link th:include="include/taglib :: globaljs"/>
+</head>
+
+<body style="background-color: #222;">
+<section class="container" style="width: 40%; margin-top: 15%;">
+
+
+    <div th:if="${message}" th:class="${message.success}?'Huialert Huialert-success' : 'Huialert Huialert-error'">
+        <i class="icon-remove" th:text="${message.note}"/>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-header">登录</div>
+        <div class="panel-body">
+
+            <form th:action="@{/login.htm}" method="post" class="form form-horizontal responsive" id="loginForm"
+                  novalidate="novalidate">
+
+                <div class="row cl">
+                    <label class="form-label col-xs-3">用户名：</label>
+                    <div class="formControls col-xs-6">
+                        <input type="text" class="input-text" placeholder="请输入用户名..." name="userName" id="userName"/>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-3">密码：</label>
+                    <div class="formControls col-xs-6">
+                        <input type="password" class="input-text valid" placeholder="请输入密码..." name="password"
+                               id="password"/>
+                    </div>
+                </div>
+                <div th:if="${enableVerif == 'true' }" class="row cl">
+                    <label class="form-label col-xs-3">验证码：</label>
+                    <div class="formControls col-xs-3">
+                        <input type="text" class="input-text " maxlength="4" placeholder="请输入验证码..."
+                               id="kaptcha" name="verifCode"/>
+                    </div>
+                    <div class="formControls col-xs-6">
+                        <img src="code/captcha-image" id="kaptchaImage"/>
+                        <a href="#" onclick="changeCode()">刷新</a>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <div class="form-label col-xs-6">
+                        <input class="btn btn-primary" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;"/>
+                    </div>
+                    <div class="form-label col-xs-2">
+                        <input class="btn btn-primary" type="submit" value="&nbsp;&nbsp;重置&nbsp;&nbsp;"/>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script style="text/javascript">
+    /*<![CDATA[*/
+    jQuery(document).ready(function () {
+        $('#kaptchaImage').click(function () {
+            $(this).hide().attr('src', 'code/captcha-image?' + Math.floor(Math.random() * 100)).fadeIn();
+        });
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            // 按 Esc要做的事情
+            if (e && e.keyCode == 27) {
+            }
+            //按 F2要做的事情
+            if (e && e.keyCode == 113) {
+            }
+            // enter要做的事情
+            if (e && e.keyCode == 13) {
+                $("#loginForm").submit();
+            }
+        };
+    })
+
+    window.onbeforeunload = function () {
+        //关闭窗口时自动退出
+        if (event.clientX > 360 && event.clientY < 0 || event.altKey) {
+            alert(parent.document.location);
+        }
+    };
+
+    function changeCode() {  //刷新
+        $('#kaptchaImage').hide().attr('src', 'code/captcha-image?' + Math.floor(Math.random() * 100)).fadeIn();
+        event.cancelBubble = true;
+    }
+    /*]]>*/
+</script>
+
+</body>
+</html>

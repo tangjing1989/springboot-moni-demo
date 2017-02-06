@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:include="include/taglib :: globaljs"/>
+    <link th:include="include/taglib :: indexjs"/>
+
+    <!-- 反运营商劫持 S -->
+    <style type="text/css">
+        html {
+            display: none;
+        }
+    </style>
+    <script>
+        if (self == top) {
+            document.documentElement.style.display = 'block';
+        } else {
+            top.location = self.location;
+        }
+    </script>
+    <!-- 反运营商劫持 E -->
+    <title>H-ui概述 - H-ui前端框架官方网站</title>
+    <meta name="keywords" content="H-ui概述,H-ui前端框架"/>
+    <meta name="description" content="H-ui前端框架概述。"/>
+    <style type="text/css">
+        #Hui-nav li#Huinav_2 a, #Hui-nav li#Huinav_2 a:hover {
+            color: #fff;
+            background-color: #111
+        }
+    </style>
+</head>
+<body onLoad="prettyPrint()">
+<header class="navbar-wrapper">
+    <div class="navbar navbar-black">
+        <div class="container-fluid cl"><a class="logo navbar-logo hidden-xs" href="/aboutHui.shtml">H-ui前端框架</a>
+            <nav class="navbar-userbar f-r hidden-xs hidden-sm">
+                <a href="javascript:void(0);" onclick="addFavoritepage();return !1;" class="btn btn-primary radius"
+                   title="收藏">收藏本页</a>
+                <a class="btn btn-success radius" target="_blank" href="/shareCode.shtml">代码分享</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<aside class="Hui-aside">
+    <input runat="server" id="divScrollValue" type="hidden" value=""/>
+    <div th:if="${menu1s != null and #lists.size(menu1s)>0}" class="menu_dropdown bk_2">
+        <dl th:each="menu1:${menu1s}" id="menu_notes">
+            <dt><label th:text="${menu1.menuName}"/><i class="Hui-iconfont menu_dropdown-arrow"></i></dt>
+            <dd>
+                <ul th:if="${menu1.nodes != null and #lists.size(menu1.nodes)>0}">
+                    <li th:each="node : ${menu1.nodes}">
+                        <div th:if="${node.menuHref != null }">
+                            <a th:value="${node.menuHref}" th:name="|${menu1.menuName}_${node.menuName}|"
+                               th:onclick="'javascript:loadPage(this);'" th:text="${node.menuName}"/>
+                        </div>
+                        <div th:if="${node.menuHref == null }">
+                            <a><label th:text="${node.menuName}"/></a>
+                        </div>
+
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+
+</aside>
+
+<div class="dislpayArrow hidden-xs">
+    <a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a>
+</div>
+
+<section class="Hui-article-box">
+    <div id="Hui-tabNav" >
+                <nav class="breadcrumb">
+                    <i class="Hui-iconfont">&#xe67f;</i>
+                    <a class="maincolor" href="main.htm" th:text="首页"></a>
+                    <span id="stile1" style="display: none" class='c-999 en'>&gt;</span>
+                    <span id="stile2" style="display: none"></span>
+                    <span id="stile3" style="display: none" class='c-999 en'>&gt;</span>
+                    <span id="stile4" style="display: none" class='c-666 '></span>
+                </nav>
+    </div>
+    <div id="iframe_box" class="Hui-article">
+        <div class="show_iframe">
+            <div style="display:none" class="loading"></div>
+            <iframe scrolling="yes" frameborder="0"  id="mainFrame" name="mainFrame"></iframe>
+        </div>
+    </div>
+</section>
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+    })
+    function loadPage(object) {
+        //document.frames('mainFrame').src=url;
+        //document.frames('mainFrame').location.reload()
+        // document.frames('mainFrame').contentWindow.location.reload(true);
+        $('#mainFrame').attr('src', object.getAttribute("value"));
+        var arr = object.name.split("_");
+        if (arr[0] != null) {
+            document.getElementById("stile1").style.display = "";
+            document.getElementById("stile2").style.display = "";
+            $("#stile2").text(arr[0])
+        }
+        if (arr[0] == null) {
+            document.getElementById("stile1").style.display = "none";
+            document.getElementById("stile2").style.display = "none";
+        }
+        if (arr[0] != null) {
+            document.getElementById("stile3").style.display = "";
+            document.getElementById("stile4").style.display = "";
+            $("#stile4").text(arr[1])
+        }
+        if (arr[0] == null) {
+            document.getElementById("stile3").style.display = "none";
+            document.getElementById("stile4").style.display = "none";
+        }
+    }
+
+</script>
+</body>
+</html>

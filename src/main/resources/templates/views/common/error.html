@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<title>Common Error Page</title>
+
+<link th:href="${#httpServletRequest.getContextPath()}+'/assets/plugins/font-awesome/css/font-awesome.min.css'" rel="stylesheet" type="text/css"/>
+<link th:href="${#httpServletRequest.getContextPath()}+'/assets/plugins/bootstrap/css/bootstrap.min.css'" rel="stylesheet" type="text/css"/>
+<link th:href="${#httpServletRequest.getContextPath()}+'/assets/plugins/uniform/css/uniform.default.css'" rel="stylesheet" type="text/css"/>
+
+<link th:href="${#httpServletRequest.getContextPath()}+'/assets/css/style-metronic.css'" rel="stylesheet" type="text/css"/>
+<link th:href="${#httpServletRequest.getContextPath()}+'/assets/css/style.css'" rel="stylesheet" type="text/css"/>
+<link th:href="${#httpServletRequest.getContextPath()}+'/assets/css/style-responsive.css'" rel="stylesheet" type="text/css"/>
+<link th:href="${#httpServletRequest.getContextPath()}+'/assets/css/plugins.css'" rel="stylesheet" type="text/css"/>
+
+<link th:href="${#httpServletRequest.getContextPath()}+'/assets/css/pages/error.css'" rel="stylesheet" type="text/css"/>
+<link th:href="${#httpServletRequest.getContextPath()}+'/assets/css/custom.css'" rel="stylesheet" type="text/css"/>
+
+<body>
+<div class="row">
+				<div class="col-md-12 page-500">
+					<div class=" number">
+						 500
+					</div>
+					<div class=" details">
+						<h3>系统错误</h3>
+						<p>
+						您可以通过以下几种方式重试:<br/>
+							1.请确认路径正确后重试;<br/>
+							2.重新登录;<br/>
+							3.稍后重试或者联系管理员;<br/>
+						</p>
+					</div>
+				</div>
+			</div>
+</body>
+</html>

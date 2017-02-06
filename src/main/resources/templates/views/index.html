@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>H-ui.admin v2.5</title>
+    <link th:include="include/taglib :: globaljs"/>
+</head>
+<body>
+<header class="navbar-wrapper">
+    <div class="navbar navbar-fixed-top">
+        <div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">H-ui.admin</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a> <span class="logo navbar-slogan f-l mr-10 hidden-xs">v2.5</span> <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+
+            <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+                <ul class="cl">
+                    <li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A"><a th:text="${user.userName}"/> <i class="Hui-iconfont">&#xe6d5;</i></a>
+                        <ul class="dropDown-menu menu radius box-shadow">
+                            <li><a href="#">个人信息</a></li>
+                            <li><a href="#">切换账户</a></li>
+                            <li><a href="logout.htm">退出</a></li>
+                        </ul>
+                    </li>
+                    <li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
+                    <li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+                        <ul class="dropDown-menu menu radius box-shadow">
+                            <li><a href="javascript:;" data-val="default" title="默认（黑色）">默认（黑色）</a></li>
+                            <li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
+                            <li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+                            <li><a href="javascript:;" data-val="red" title="红色">红色</a></li>
+                            <li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+                            <li><a href="javascript:;" data-val="orange" title="绿色">橙色</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" id="refreshButtun"
+                   href="main.htm" title="刷新"><i
+                        class="Hui-iconfont">&#xe68f;</i></a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+
+<aside class="Hui-aside" >
+    <input runat="server" id="divScrollValue" type="hidden" value=""/>
+    <div class="menu_dropdown bk_2" th:if="${menu1s != null and #lists.size(menu1s)>0}" >
+        <dl  class="menu-article"  id="menu_notes" th:each="menu1:${menu1s}">
+            <!--第一级菜单-->
+            <dt><i th:class="'Hui-iconfont '+${menu1.imgText}" ><label th:text="${menu1.menuName}"/></i>
+                <i class="Hui-iconfont menu_dropdown-arrow Hui-iconfont-arrow2-bottom"></i></dt>
+            <dd>
+                <ul th:if="${menu1.nodes != null and #lists.size(menu1.nodes)>0}">
+                    <li th:each="node : ${menu1.nodes}">
+                        <div th:if="${node.menuHref != null }">
+                            <!--第二级菜单-->
+                            <a th:class="'Hui-iconfont '+${node.imgText}"
+                                    th:value="${node.menuHref}" th:name="|${menu1.menuName}_${node.menuName}|"
+                               th:onclick="'javascript:loadPage(this);'" th:text="${node.menuName}"/>
+                        </div>
+                        <div th:if="${node.menuHref == null }">
+                            <a th:class="'Hui-iconfont '+${node.imgText}" th:text="${node.menuName}"></a>
+                        </div>
+
+                    </li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+
+</aside>
+
+
+
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+
+
+<section class="Hui-article-box">
+    <div id="Hui-tabNav" >
+        <nav class="breadcrumb">
+            <i class="Hui-iconfont">&#xe67f;</i>
+            <a class="maincolor" href="main.htm" th:text="首页"></a>
+            <span id="stile1" style="display: none" class='c-999 en'>&gt;</span>
+            <span id="stile2" style="display: none"></span>
+            <span id="stile3" style="display: none" class='c-999 en'>&gt;</span>
+            <span id="stile4" style="display: none" class='c-666 '></span>
+        </nav>
+    </div>
+    <div id="iframe_box" class="Hui-article">
+        <div class="show_iframe">
+            <div style="display:none" class="loading"></div>
+            <iframe scrolling="yes" frameborder="0"  id="mainFrame" name="mainFrame" ></iframe>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+
+    function loadPage(object) {
+        //document.frames('mainFrame').src=url;
+        //document.frames('mainFrame').location.reload()
+        // document.frames('mainFrame').contentWindow.location.reload(true);
+        $('#mainFrame').attr('src', object.getAttribute("value"));
+
+        var arr = object.name.split("_");
+        if (arr[0] != null) {
+            document.getElementById("stile1").style.display = "";
+            document.getElementById("stile2").style.display = "";
+            $("#stile2").text(arr[0])
+        }
+        if (arr[0] == null) {
+            document.getElementById("stile1").style.display = "none";
+            document.getElementById("stile2").style.display = "none";
+        }
+        if (arr[0] != null) {
+            document.getElementById("stile3").style.display = "";
+            document.getElementById("stile4").style.display = "";
+            $("#stile4").text(arr[1])
+        }
+        if (arr[0] == null) {
+            document.getElementById("stile3").style.display = "none";
+            document.getElementById("stile4").style.display = "none";
+        }
+    }
+
+    $(function () {
+    });
+</script>
+</body>
+</html>

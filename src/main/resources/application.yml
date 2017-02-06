@@ -1,0 +1,73 @@
+server:
+  context-path: /Monitor
+  port: 8080
+  tomcat:
+  accesslog:
+    enabled: true
+  error:
+    path: /custom/error
+
+spring:
+  datasource:
+      name: test
+      url: jdbc:mysql://localhost:3306/test
+      username: root
+      password: root
+      # 使用druid数据源
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+  http:
+      converters:
+        preferred-json-mapper: jackson
+        MediaType:
+      encoding:
+        charset: UTF-8
+        enabled: true
+      converter:
+        StringHttpMessageConverter:
+         supportedMediaTypes:
+  thymeleaf:
+        prefix: classpath:/templates/views/
+        cache: false
+        mode: HTML5
+  mvc:
+      view:
+       prefix: /WEB-INF/views/
+       suffix: .jsp
+
+
+
+monitor:
+  param:
+    SYS_SERVER_TYPE: tomcat
+    IS_KAPTCHA: true
+
+
+
+kaptcha:
+  session:
+#    key: kaptcha.code
+    key: code
+  #border: no
+  #渲染效果：水纹：WaterRipple；鱼眼：FishEyeGimpy；阴影：ShadowGimpy
+  obscurificator:
+    impl: com.google.code.kaptcha.impl.ShadowGimpy
+  #不要噪点
+  noise:
+    impl: com.google.code.kaptcha.impl.NoNoise
+  image:
+    width: 80
+    height: 30
+  textproducer:
+    font:
+     color: blue
+     size: 25
+     names: 彩云,宋体,楷体,微软雅黑
+    char:
+      space: 3
+      length: 4
+  #和登录框背景颜色一致
+  background:
+    clear:
+      from: 247,247,247
+      to: 247,247,247
